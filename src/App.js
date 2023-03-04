@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState,useEffect } from "react";
+import React from "react";
+import Store from "./components/Store";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {BrowserRouter,Routes,Route} from "react-router-dom"
+
+
+function App(props){
+const [StoreItem,setStoreItem]=useState([])
+
+useEffect(()=>{
+   const fetchData=async()=>{
+    const result=await fetch(`https://fakestoreapi.com/products`)
+    result.json().then(json=>
+      setStoreItem(json))
+   }
+   fetchData();
+})
+
+return(
+  
+
+
+<div className="app">
+ <Store items={StoreItem} onItemAdd={(itemData)=>{
+ setStoreItem([...StoreItem,itemData])
+ }} />
+</div>
+
+)
+
+
 }
 
 export default App;
